@@ -1,4 +1,6 @@
 import React from 'react'
+import { auth } from './firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function login() {
 
@@ -7,26 +9,39 @@ export default function login() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
+    const handleRegister = async (e)=>{
+        e.preventDefault();
+        try{
+            await createUserWithEmailAndPassword(auth,email,password)
+            const user = auth.currentUser;
+            console.log(user);
+            console.log("success");
+        }
+        catch (error){
+            console.error("Registration failed:", error.message);
+        }
+    }
+
 
   return (
     <div className='fixed top-0 bottom-0 left-0 right-0 z-30 flex items-center text-sm text-gray-600'>
-       <form className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-[352px] rounded-lg shadow-xl border border-gray-200 bg-white">
+       <form className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-[352px] rounded-lg shadow-xl border border-gray-200 bg-white" onSubmit={handleRegister}>
             <p className="text-2xl font-medium m-auto">
                 <span className="text-indigo-500">Admin</span> {state === "login" ? "Login" : "Sign Up"}
             </p>
             {state === "register" && (
                 <div className="w-full">
                     <p>Name</p>
-                    <input onChange={(e) => setName(e.target.value)} value={name} placeholder="type here" className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500" type="text" required />
+                    <input onChange={(e) => setName(e.target.value)} value={name} placeholder="Name" className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500" type="text" required />
                 </div>
             )}
             <div className="w-full ">
                 <p>Email</p>
-                <input onChange={(e) => setEmail(e.target.value)} value={email} placeholder="type here" className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500" type="email" required />
+                <input onChange={(e) => setEmail(e.target.value)} value={email} placeholder="Email" className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500" type="email" required />
             </div>
             <div className="w-full ">
                 <p>Password</p>
-                <input onChange={(e) => setPassword(e.target.value)} value={password} placeholder="type here" className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500" type="password" required />
+                <input onChange={(e) => setPassword(e.target.value)} value={password} placeholder="Password" className="border border-gray-200 rounded w-full p-2 mt-1 outline-indigo-500" type="password" required />
             </div>
             {state === "register" ? (
                 <p>

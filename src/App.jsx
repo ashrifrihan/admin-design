@@ -7,11 +7,13 @@ import ProductUpdate from './components/productUpdate'
 export default function App() {
   return (
     <div className='flex h-screen'>
-      <Sidebar/>
+
+      <Login/>
+      {/* <Sidebar/>
       <div className="flex-1 overflow-y-auto">
         <Product />
         <ProductUpdate/>
-      </div>
+      </div> */}
     </div>
   )
 }
